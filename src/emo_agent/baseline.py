@@ -184,4 +184,4 @@ def run_baseline(root: Path, run_id: str):
     pd.DataFrame(intervals).to_csv(out / "sentiment_delta_intervals.csv", index=False)
     run = {"run_id": run_id, "code_commit": git_revision(root), "git_clean_at_start": True, "config_sha256": sha256(config_path), "dataset_metadata_sha256": sha256(dataset / "metadata.json"), "dataset_sample_sha256": sha256(dataset / "daily_samples.csv"), "dataset_code_commit": metadata["code_commit"], "dependencies": {p: importlib.metadata.version(p) for p in ["numpy", "pandas", "scikit-learn", "scipy", "joblib"]}, "settings": settings, "paired_block_intervals": intervals, "availability_assumption": "interval_end_only_not_verified_publication", "artifacts": {str(p.relative_to(out)): sha256(p) for p in sorted(out.rglob("*")) if p.is_file()}}
     (out / "run.json").write_text(json.dumps(run, ensure_ascii=False, indent=2)+"\n", encoding="utf-8")
-    return metrics.to_dict("records")
+    return metrics.astype(object).where(pd.notna(metrics), None).to_dict("records")
