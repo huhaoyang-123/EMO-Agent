@@ -1,4 +1,4 @@
-"""Project CLI. Model training is a later issue."""
+"""Project CLI: audit snapshots, build cutoff samples, evaluate baselines."""
 import argparse
 import json
 from pathlib import Path

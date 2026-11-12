@@ -4,7 +4,7 @@
 
 ## 当前阶段
 
-阶段2预测时点/标签、阶段3四个逻辑回归与测试评估已完成，本地31测试通过。正在完成确定性复跑和远程CI。
+阶段2预测时点/标签、阶段3四个逻辑回归与测试评估已完成，本地31测试通过。确定性复跑通过，所有模型与预测产物字节一致；模型PR远程CI待检查。
 
 - 基础 PR #4 待审；样本 [PR #5](https://github.com/huhaoyang-123/EMO-Agent/pull/5) 已推送且CI通过。
 - 当前分支 feat/3-logistic-baseline 依赖样本分支；不自动合并。后续按基础→样本→模型顺序审阅。
@@ -19,7 +19,7 @@
 ## 验证与发布状态
 
 - Python 3.13.7 + uv 0.13.7，`python -m uv sync --locked` 通过，uv.lock 锁定依赖与哈希。
-- `python -m uv run --locked pytest`：21 passed。
+- `python -m uv run --locked pytest`：31 passed。
 - 本地真实数据审计通过：15 文件哈希一致，2,376 行行情、83,653 行情绪、3,044,795 篇帖子；日度合计一致。
 - CLI 帮助、语法检查通过。远程 CI 和 PR 状态在 Issue #1 与关联 PR 中查看；尚未合并。
 

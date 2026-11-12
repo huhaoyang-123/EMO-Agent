@@ -46,9 +46,9 @@
 - `count_snapshot_verified=0`：历史实际可得时间和修订情况未验证。
 - `Tradetm_dum` 为源时段标记；`is_trade_date` 来自旧日历，两个字段不等价。
 
-## 尚待生成
+## 后续生成产物
 
-最终共同样本、1/5 日标签、cutoff_at、label_end_date、特征与处理日志、预测概率、模型评分。目前没有准确率结果。原 ETF、事件、个股日线及重复浏览版工作簿未迁入本阶段项目。
+共同样本和标签已生成于 data/derived/cutoff_v1/；四模型、预测概率和评分已生成于 outputs/baseline_v1/，结果见 docs/results/baseline_v1.md。原 ETF、事件、个股日线及重复浏览版工作簿未迁入本阶段项目。
 
 ## cutoff_v1 共同样本（阶段 2）
 
