@@ -49,3 +49,21 @@
 ## 尚待生成
 
 最终共同样本、1/5 日标签、cutoff_at、label_end_date、特征与处理日志、预测概率、模型评分。目前没有准确率结果。原 ETF、事件、个股日线及重复浏览版工作簿未迁入本阶段项目。
+
+## cutoff_v1 共同样本（阶段 2）
+
+文件 `data/derived/cutoff_v1/daily_samples.csv`：645 个预测日期，其中 625 个 eligible。2023-11-28—2026-06-30；训练/验证/测试候选数 266/243/116，模型阶段仍须剔除边界标签未成熟行。
+
+- cutoff_at：Asia/Shanghai，每交易日 16:00。
+- interval_assignments.csv：90,355 个预期公司时段（含 6,702 缺失），按 interval_end 归到第一个不早于它的预测时点；观测源 ID 只出现一次。该文件可逐行追溯时间归属。
+- expected_companies 是窗口内源 Date 对应动态历史成员的并集；跨调整窗口可能多于当日 50 家。company/slot_coverage 均按这个窗口重算，不直接沿用统计日覆盖。
+- target_1/target_5：终点收盘严格高于起点为 1；label_end_date_1/5 是标签成熟日期；return_forward_1/5 仅用于评估，绝不能作为特征。
+- return_1/5/20：当日收盘相对过去交易日收盘的收益，小数单位；volatility_5/20：日收益样本标准差；amount_relative_20：当日成交额相对前 20 日均值减 1。
+- net_sentiment/equal_weight_sentiment：对齐窗口的帖子加权/公司等权情绪；sentiment_change_5：当前净情绪减此前 5 个窗口的均值。
+- post_heat_20：log(1+当前每观测公司时段帖子量) 减 log(1+此前 20 窗口该强度均值)，降低周末窗口更长造成的机械影响。
+- sentiment_missing：情绪缺失为 1；缺失计数/情绪保留空值。模型只使用训练集统计量填补；不额外筛掉低覆盖日期。
+- eligible/exclusion_reason：行情历史窗口是否齐全及不合格原因；period 为初始日期分组，不能代替成熟标签过滤。
+- availability_assumption：仅 interval_end 对齐，历史真实发布可得时间未验证。
+- metadata.json：源数据哈希、特征白名单、输出哈希与构建提交；excluded_dates.csv：20 个历史窗口不足日期。
+
+指标从发布后行情起算，不使用发布前回算作为第一版特征历史。2026-06-30 的 5 日标签终点为 2026-07-07，可使用行情表中已有未来价格做标签，不用于输入。

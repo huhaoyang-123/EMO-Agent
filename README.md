@@ -4,7 +4,7 @@
 
 ## 当前阶段
 
-阶段 1：协作与可复现基础。数据已迁入本地 `data/`；尚未清洗成最终模型样本，尚未训练模型，准确率未知。进度以 [PROGRESS.md](PROGRESS.md) 为准。
+阶段 2：时点对齐与共同样本已完成并验证；尚未训练模型，准确率未知。进度以 [PROGRESS.md](PROGRESS.md) 为准。
 
 后续：截止时点安全的共同样本 → 四个逻辑回归模型 → 冻结测试与结果解释 → 每日运行 Agent。
 
@@ -33,7 +33,7 @@ python -m uv run --locked emo-agent audit-data
 python -m uv run --locked python scripts/rebuild_sentiment.py
 ```
 
-重建结果写入 `data/derived/sentiment_rebuilt/`，原始包和迁入快照不被覆盖。该脚本复现的是既有统计日口径，**不是** 16:00 可用的最终预测特征。当前没有 `train` 命令。
+重建结果写入 `data/derived/sentiment_rebuilt/`，原始包和迁入快照不被覆盖。该脚本复现的是既有统计日口径，**不是** 16:00 可用的最终预测特征。构建共同样本：`python -m uv run --locked emo-agent build-dataset`。当前没有 `train` 命令。
 
 ## 项目目录
 

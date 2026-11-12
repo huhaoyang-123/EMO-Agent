@@ -4,7 +4,7 @@
 
 ## 当前阶段
 
-阶段 1 本地实现与验证完成，已推送，等待 PR 审阅合并。
+阶段 2 已完成本地构建与验证：625 个可用预测日期，27 项测试通过。阶段 1 已验证，PR #4 尚未合并；阶段 2 从已验证基础分支继续，使用依赖 PR。
 
 [Issue #1](https://github.com/huhaoyang-123/EMO-Agent/issues/1) · [PR #4](https://github.com/huhaoyang-123/EMO-Agent/pull/4) · 分支 `chore/1-project-foundation`。
 
@@ -34,4 +34,5 @@
 - 历史情绪计数何时对外可见及是否修订未核实。
 - 统计日表包含星期五晚间时段，直接用于当天 16:00 预测会泄漏。
 - 行情有发布前回算记录；日历 `split` 是旧方案，不可沿用到新实验。
-- 尚未训练模型；准确率未知。无最新行情抓取或实时 Agent。
+- 阶段 2 样本已保存 data/derived/cutoff_v1/，详见 docs/records/2026-11-12-dataset.md。
+- 下一步进入阶段 3。尚未训练模型，准确率未知。无最新行情抓取或实时 Agent。
