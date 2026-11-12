@@ -1,6 +1,6 @@
 # 2026-11-12 项目基础初始化
 
-Issue: #1；分支：chore/1-project-foundation；PR：待创建。
+Issue: #1；分支：chore/1-project-foundation；PR：[#4](https://github.com/huhaoyang-123/EMO-Agent/pull/4)，已推送，未自动合并。
 
 ## 修改
 
@@ -24,7 +24,7 @@ Issue: #1；分支：chore/1-project-foundation；PR：待创建。
 - `python -m uv run --locked pytest`：21 passed（4.95s）。
 - `python -m uv run --locked emo-agent audit-data`：ok=true，15 文件；2,376 行行情、83,653 行情绪、3,044,795 篇帖子，日度对账通过。报告 outputs/audits/data_audit.json。
 - CLI --help 与 git diff --check 通过。
-- 远程 CI：PR 创建后检查，未观察结果前不计为通过。
+- 远程 CI 的逐提交结果记录于 PR #4 的 Checks；本地验证与远程验证分别记录。
 - 完整千万行原始 ZIP 重建本次未执行；数据迁移哈希与本地聚合对账分别验证。
 
 ## 下一步

@@ -4,7 +4,9 @@
 
 ## 当前阶段
 
-阶段 1：协作基础与数据迁移。Issue #1，分支 `chore/1-project-foundation`。
+阶段 1 本地实现与验证完成，已推送，等待 PR 审阅合并。
+
+[Issue #1](https://github.com/huhaoyang-123/EMO-Agent/issues/1) · [PR #4](https://github.com/huhaoyang-123/EMO-Agent/pull/4) · 分支 `chore/1-project-foundation`。
 
 ## 已完成
 
