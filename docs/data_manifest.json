@@ -1,0 +1,96 @@
+{
+  "version": 1,
+  "recorded_on": "2026-11-12",
+  "files": [
+    {
+      "path": "data/raw/guba/GUBA_上市公司股吧帖子统计（交易时间）_2023.zip",
+      "source_relative": "股吧评论/GUBA_上市公司股吧帖子统计（交易时间）_2023.zip",
+      "bytes": 141071186,
+      "sha256": "2744be57807eab2a2bbaf7fb641a0b24e24ff98f240bf7ed6b9d42cba069140d"
+    },
+    {
+      "path": "data/raw/guba/GUBA_上市公司股吧帖子统计（交易时间）_2024.zip",
+      "source_relative": "股吧评论/GUBA_上市公司股吧帖子统计（交易时间）_2024.zip",
+      "bytes": 154910439,
+      "sha256": "f6f77e6b143c2d8712ff39c6b4b939cc37f411475380b10491032fab463066e0"
+    },
+    {
+      "path": "data/raw/guba/GUBA_上市公司股吧帖子统计（交易时间）_2025.zip",
+      "source_relative": "股吧评论/GUBA_上市公司股吧帖子统计（交易时间）_2025.zip",
+      "bytes": 164738157,
+      "sha256": "9a65f8a85e20909e6ccf9a46944bce4e17b1e1e89635438f7ae141718d6ea21d"
+    },
+    {
+      "path": "data/raw/guba/GUBA_上市公司股吧帖子统计（交易时间）_2026.zip",
+      "source_relative": "股吧评论/GUBA_上市公司股吧帖子统计（交易时间）_2026.zip",
+      "bytes": 81654763,
+      "sha256": "5563bc3fafad364d93163f5e9d29fa507d78b2011f403c8b2d5b89b24e7f4226"
+    },
+    {
+      "path": "data/input/market/index_931723_full.csv",
+      "source_relative": "指数/clean/index_931723_full.csv",
+      "bytes": 126375,
+      "sha256": "819c4b5048bf7726d864536689ceedf600ab0836a35c6509f12f00765e9b469f"
+    },
+    {
+      "path": "data/input/market/index_931723_members.csv",
+      "source_relative": "指数/clean/index_931723_members.csv",
+      "bytes": 1469,
+      "sha256": "67f18daa1935958eced86d37bb93b959374434f24d58e488d0e0578c88777de6"
+    },
+    {
+      "path": "data/input/market/index_931723_changes.csv",
+      "source_relative": "指数/clean/index_931723_changes.csv",
+      "bytes": 4637,
+      "sha256": "2d5edad572aa179042db7d2f89289515b9e7827b8400b0c03abadea0684cf714"
+    },
+    {
+      "path": "data/input/market/trading_calendar.csv",
+      "source_relative": "指数/clean/trading_calendar.csv",
+      "bytes": 34141,
+      "sha256": "f8625a87dee682ca5441e646e9900805bbb3398f0e34594241f5be8ed34dd907"
+    },
+    {
+      "path": "data/input/sentiment/931723成分股分时明细.csv",
+      "source_relative": "情绪分析/931723全成分股情绪/931723成分股分时明细.csv",
+      "bytes": 40165985,
+      "sha256": "89b99527e1a447c270b58b523efe95a48b2ddda2cd7dea99a5a76d8f7c839bbc"
+    },
+    {
+      "path": "data/input/sentiment/931723行业统计日.csv",
+      "source_relative": "情绪分析/931723全成分股情绪/931723行业统计日.csv",
+      "bytes": 119950,
+      "sha256": "f0b2255cef85164cacc21d656fed6b1403d296d09347e1a222bbd94cc33f5e74"
+    },
+    {
+      "path": "data/input/sentiment/931723行业分时.csv",
+      "source_relative": "情绪分析/931723全成分股情绪/931723行业分时.csv",
+      "bytes": 257727,
+      "sha256": "319fa7ef9c1260d18401edf62dab587fb8bd1ccf41637cfd83c78c561c7771ce"
+    },
+    {
+      "path": "data/input/sentiment/931723成分股覆盖.csv",
+      "source_relative": "情绪分析/931723全成分股情绪/931723成分股覆盖.csv",
+      "bytes": 5416,
+      "sha256": "659480b247b6f006abdf2ffa2f9016d57c7589319f77f187454dee6c2398c898"
+    },
+    {
+      "path": "data/input/sentiment/931723缺失时段.csv",
+      "source_relative": "情绪分析/931723全成分股情绪/931723缺失时段.csv",
+      "bytes": 621392,
+      "sha256": "2e761d1d87edc272bb1b5efc064efb04c089755cb617b8b4e87bb54783605a09"
+    },
+    {
+      "path": "data/input/sentiment/931723源文件清单.csv",
+      "source_relative": "情绪分析/931723全成分股情绪/931723源文件清单.csv",
+      "bytes": 4920,
+      "sha256": "99ad5ff3419fb2934034072c720f1cea0d4beed0c5a68d325e2131db44795b56"
+    },
+    {
+      "path": "data/input/sentiment/summary.json",
+      "source_relative": "情绪分析/931723全成分股情绪/summary.json",
+      "bytes": 528,
+      "sha256": "28c4d61bc84ccaa622fc48bd2126c59ea452e8e82f46cf81af9b530542c86de9"
+    }
+  ]
+}

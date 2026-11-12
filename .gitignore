@@ -1,0 +1,23 @@
+# Local environments and caches
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+*.egg-info/
+build/
+dist/
+# Research data: share through an authorized channel, never commit
+/data/*
+!/data/README.md
+/outputs/*
+!/outputs/README.md
+# Secrets and local editor state
+.env
+.env.*
+!.env.example
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+*.log
