@@ -1,13 +1,13 @@
 # 项目进度
 
-更新日期：2026-11-12（Asia/Shanghai）
+更新日期：2026-11-13（Asia/Shanghai）
 
 ## 当前阶段
 
-阶段2预测时点/标签、阶段3四个逻辑回归与测试评估已完成，本地31测试通过。确定性复跑通过，所有模型与预测产物字节一致；模型PR远程CI待检查。
+阶段2预测时点/标签、阶段3四个逻辑回归与测试评估已完成，本地31测试通过。确定性复跑通过，所有模型与预测产物字节一致；模型 [PR #6](https://github.com/huhaoyang-123/EMO-Agent/pull/6) 已建立，远程CI结果见PR Checks。
 
 - 基础 PR #4 待审；样本 [PR #5](https://github.com/huhaoyang-123/EMO-Agent/pull/5) 已推送且CI通过。
-- 当前分支 feat/3-logistic-baseline 依赖样本分支；不自动合并。后续按基础→样本→模型顺序审阅。
+- 模型 [PR #6](https://github.com/huhaoyang-123/EMO-Agent/pull/6) 依赖样本PR；当前分支 feat/3-logistic-baseline；不自动合并。后续按基础→样本→模型顺序审阅。
 - 完整结果：[docs/results/baseline_v1.md](docs/results/baseline_v1.md)。
 
 ## 已完成
@@ -39,3 +39,5 @@
 ## 已知限制
 
 历史统计实际可得时间/修订未核实；成员按源Date匹配；缺失保留且覆盖随时间变化。样本有限，5日目标重叠；预测评估不等于可交易策略收益。
+
+数学定义、实际系数、问题与下一轮路线已写入 docs/model_math.md（2026-11-13）。未追加第二轮调参或使用测试结果改模型。
