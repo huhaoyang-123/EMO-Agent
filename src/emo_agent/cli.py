@@ -1,4 +1,4 @@
-"""Project CLI. Model training is a later issue."""
+"""Project CLI: audit snapshots, build cutoff samples, evaluate baselines."""
 import argparse
 import json
 from pathlib import Path
@@ -12,11 +12,18 @@ def main() -> int:
     audit.add_argument("--root", type=Path, default=Path.cwd())
     build = commands.add_parser("build-dataset", help="align intervals and construct daily labels/features")
     build.add_argument("--root", type=Path, default=Path.cwd())
+    train = commands.add_parser("train-baseline", help="fit frozen logistic baselines and score held-out dates")
+    train.add_argument("--root", type=Path, default=Path.cwd())
+    train.add_argument("--run-id", required=True)
     args = parser.parse_args()
     root = args.root.resolve()
     if args.command == "build-dataset":
         from emo_agent.dataset import build_dataset
         print(json.dumps(build_dataset(root), ensure_ascii=False))
+        return 0
+    if args.command == "train-baseline":
+        from emo_agent.baseline import run_baseline
+        print(json.dumps(run_baseline(root, args.run_id), ensure_ascii=False))
         return 0
     report = audit_project(root)
     destination = safe_path(root, "outputs/audits/data_audit.json")

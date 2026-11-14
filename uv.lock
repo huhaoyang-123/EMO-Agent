@@ -25,6 +25,7 @@ name = "emo-agent"
 version = "0.1.0"
 source = { editable = "." }
 dependencies = [
+    { name = "joblib" },
     { name = "lxml" },
     { name = "numpy" },
     { name = "pandas" },
@@ -38,6 +39,7 @@ dev = [
 
 [package.metadata]
 requires-dist = [
+    { name = "joblib", specifier = ">=1.4,<2" },
     { name = "lxml", specifier = ">=5,<7" },
     { name = "numpy", specifier = ">=2.2,<3" },
     { name = "pandas", specifier = ">=2.2,<3" },

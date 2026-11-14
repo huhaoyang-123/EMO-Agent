@@ -4,9 +4,9 @@
 
 ## 当前阶段
 
-阶段 2：时点对齐与共同样本已完成并验证；尚未训练模型，准确率未知。进度以 [PROGRESS.md](PROGRESS.md) 为准。
+阶段 2/3：时点对齐、标签、四个逻辑回归及固定测试已完成；结果见 [基线报告](docs/results/baseline_v1.md)。进度以 [PROGRESS.md](PROGRESS.md) 为准。
 
-后续：截止时点安全的共同样本 → 四个逻辑回归模型 → 冻结测试与结果解释 → 每日运行 Agent。
+研究路径：共同样本 → 四个逻辑回归 → 固定测试（均已完成）；下一步再研究改善与每日运行 Agent。
 
 ## 启动
 
@@ -33,7 +33,9 @@ python -m uv run --locked emo-agent audit-data
 python -m uv run --locked python scripts/rebuild_sentiment.py
 ```
 
-重建结果写入 `data/derived/sentiment_rebuilt/`，原始包和迁入快照不被覆盖。该脚本复现的是既有统计日口径，**不是** 16:00 可用的最终预测特征。构建共同样本：`python -m uv run --locked emo-agent build-dataset`。当前没有 `train` 命令。
+重建结果写入 `data/derived/sentiment_rebuilt/`，原始包和迁入快照不被覆盖。该脚本复现的是既有统计日口径，**不是** 16:00 可用的最终预测特征。构建共同样本：`python -m uv run --locked emo-agent build-dataset`。训练并评估：`python -m uv run --locked emo-agent train-baseline --run-id your_run_id`。实验要求工作区干净；run-id 必须是新名称，避免覆盖已有结果。
+
+已完成的正式实验在 `outputs/baseline_v1/`，四个模型位于 `models/`，逐日概率位于 `test_predictions.csv`。输入数据和模型未上传 GitHub，授权成员取得相同数据后可按以上两条命令复现。
 
 ## 项目目录
 
@@ -50,3 +52,5 @@ python -m uv run --locked python scripts/rebuild_sentiment.py
 每项任务先建 Issue，使用 `类型/编号-简述` 分支，通过 PR 合并到 `main`。PR 需写验收证据，并使用 `Closes #编号` 关联任务。开发结束更新 `PROGRESS.md` 和 `docs/records/`。AI 工作规则见 [AGENTS.md](AGENTS.md)。
 
 研究路线见 [docs/research_plan.md](docs/research_plan.md)，数据说明见 [docs/data_dictionary.md](docs/data_dictionary.md)。文件完整与预测有效是两回事；情绪统计的历史实际可得时间仍未核实。
+
+模型公式、四模型实际系数与下一步路线见 [docs/model_math.md](docs/model_math.md)。
