@@ -1,12 +1,14 @@
 # 项目进度
 
-更新日期：2026-11-12（Asia/Shanghai）
+更新日期：2026-11-13（Asia/Shanghai）
 
 ## 当前阶段
 
-阶段 1 本地实现与验证完成，已推送，等待 PR 审阅合并。
+阶段2预测时点/标签、阶段3四个逻辑回归与测试评估已完成，本地31测试通过。确定性复跑通过，所有模型与预测产物字节一致；模型 [PR #6](https://github.com/huhaoyang-123/EMO-Agent/pull/6) 已建立，远程CI结果见PR Checks。
 
-[Issue #1](https://github.com/huhaoyang-123/EMO-Agent/issues/1) · [PR #4](https://github.com/huhaoyang-123/EMO-Agent/pull/4) · 分支 `chore/1-project-foundation`。
+- 基础 PR #4 待审；样本 [PR #5](https://github.com/huhaoyang-123/EMO-Agent/pull/5) 已推送且CI通过。
+- 模型 [PR #6](https://github.com/huhaoyang-123/EMO-Agent/pull/6) 依赖样本PR；当前分支 feat/3-logistic-baseline；不自动合并。后续按基础→样本→模型顺序审阅。
+- 完整结果：[docs/results/baseline_v1.md](docs/results/baseline_v1.md)。
 
 ## 已完成
 
@@ -17,21 +19,25 @@
 ## 验证与发布状态
 
 - Python 3.13.7 + uv 0.13.7，`python -m uv sync --locked` 通过，uv.lock 锁定依赖与哈希。
-- `python -m uv run --locked pytest`：21 passed。
+- `python -m uv run --locked pytest`：31 passed。
 - 本地真实数据审计通过：15 文件哈希一致，2,376 行行情、83,653 行情绪、3,044,795 篇帖子；日度合计一致。
 - CLI 帮助、语法检查通过。远程 CI 和 PR 状态在 Issue #1 与关联 PR 中查看；尚未合并。
 
 
+## 阶段2结果
+
+625个可用日期；83,653情绪观测唯一映射，零未来统计时段，3,044,795篇帖子对账一致；6,702缺失时段保留。输出 data/derived/cutoff_v1/，开发记录 docs/records/2026-11-12-dataset.md。
+
+## 阶段3结果
+
+2026测试116天：1日行情53.45%、行情＋情绪54.31%、参照52.59%；5日两模型66.38%、参照65.52%。5日模型几乎总猜涨，平衡准确率51.25%；尚无稳定情绪增益证据。输出 outputs/baseline_v1/，开发记录 docs/records/2026-11-12-baseline.md。
+
 ## 下一步
 
-1. [Issue #2](https://github.com/huhaoyang-123/EMO-Agent/issues/2)：完成按 16:00 截止的分时情绪聚合和每日共同样本；不能直接使用现有行业统计日表作为预测输入。
-2. [Issue #3](https://github.com/huhaoyang-123/EMO-Agent/issues/3)：冻结样本、特征和时间切分，训练行情/行情＋情绪 × 1 日/5 日四个逻辑回归模型。
-3. 输出逐日预测与准确率、概率误差、分月表现，保留最终测试独立性。
+完成PR审阅；保留当前基线。下一轮问题应在训练/验证数据中研究，当前测试已经查看，不应继续把它当未见数据。每日实时数据更新和Agent编排尚未实施。
 
 ## 已知限制
 
-- 现有共同范围约 645 个交易日；有效样本数量尚未确定。
-- 历史情绪计数何时对外可见及是否修订未核实。
-- 统计日表包含星期五晚间时段，直接用于当天 16:00 预测会泄漏。
-- 行情有发布前回算记录；日历 `split` 是旧方案，不可沿用到新实验。
-- 尚未训练模型；准确率未知。无最新行情抓取或实时 Agent。
+历史统计实际可得时间/修订未核实；成员按源Date匹配；缺失保留且覆盖随时间变化。样本有限，5日目标重叠；预测评估不等于可交易策略收益。
+
+数学定义、实际系数、问题与下一轮路线已写入 docs/model_math.md（2026-11-13）。未追加第二轮调参或使用测试结果改模型。
