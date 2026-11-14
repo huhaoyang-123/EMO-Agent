@@ -1,0 +1,29 @@
+[build-system]
+requires = ["setuptools==80.9.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "emo-agent"
+version = "0.1.0"
+description = "Reproducible CSI 931723 market and sentiment forecasting research"
+requires-python = ">=3.13,<3.14"
+dependencies = [
+  "numpy>=2.2,<3",
+  "pandas>=2.2,<3",
+  "scikit-learn>=1.6,<2",
+  "lxml>=5,<7",
+  "joblib>=1.4,<2",
+]
+
+[dependency-groups]
+dev = ["pytest>=8,<10"]
+
+[project.scripts]
+emo-agent = "emo_agent.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra"
