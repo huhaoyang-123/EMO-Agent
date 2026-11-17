@@ -82,8 +82,8 @@ def run(root,run_id):
     if not run_id or any(c not in 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_' for c in run_id): raise ValueError('invalid run id')
     if subprocess.check_output(['git','status','--porcelain'],cwd=root,text=True).strip(): raise ValueError('commit before scoring')
     if not audit_project(root)['ok']: raise ValueError('input audit failed')
-    cfg_path=root/'configs/features_v1.json';cfg=json.loads(cfg_path.read_text())
-    data=safe_path(root,cfg['source']);meta=json.loads((data/'metadata.json').read_text())
+    cfg_path=root/'configs/features_v1.json';cfg=json.loads(cfg_path.read_text(encoding='utf-8'))
+    data=safe_path(root,cfg['source']);meta=json.loads((data/'metadata.json').read_text(encoding='utf-8'))
     for name,digest in meta['outputs'].items():
         if sha256(safe_path(data,name))!=digest: raise ValueError('dataset changed')
     raw=pd.read_csv(data/'daily_samples.csv')

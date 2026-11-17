@@ -17,3 +17,5 @@
 保存季度分布、仅训练期特征相关性、同期收益/未来目标关联（后者仅描述）、选中频次、全候选内外层分数、六个模型臂逐日概率、总体及逐季Brier/准确率/平衡准确率、配对区块区间。比较selected_logit-control_logit、selected_tree-control_tree、selected_tree-selected_logit及selected_logit-market。
 
 验证：未来变动不能改变过去特征/筛选/选择；常数/冗余列排除；门槛和简约选择；标签成熟继承已有测试。原始输入哈希审计，模型保存后预测复核，完整实验重跑产物哈希核验，更新PROGRESS及结果记录。
+
+执行记录：网络恢复，Issue #9已创建。初次运行在评分前因Windows默认GBK读取UTF-8 metadata失败；显式指定UTF-8修复，未产生结果或改变实验规则。
