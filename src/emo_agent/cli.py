@@ -15,6 +15,9 @@ def main() -> int:
     train = commands.add_parser("train-baseline", help="fit frozen logistic baselines and score held-out dates")
     train.add_argument("--root", type=Path, default=Path.cwd())
     train.add_argument("--run-id", required=True)
+    stability = commands.add_parser("analyze-stability", help="rolling group ablation and retrospective attribution")
+    stability.add_argument("--root", type=Path, default=Path.cwd())
+    stability.add_argument("--run-id", required=True)
     args = parser.parse_args()
     root = args.root.resolve()
     if args.command == "build-dataset":
@@ -24,6 +27,10 @@ def main() -> int:
     if args.command == "train-baseline":
         from emo_agent.baseline import run_baseline
         print(json.dumps(run_baseline(root, args.run_id), ensure_ascii=False))
+        return 0
+    if args.command == "analyze-stability":
+        from emo_agent.stability import run_stability
+        print(json.dumps(run_stability(root, args.run_id), ensure_ascii=False))
         return 0
     report = audit_project(root)
     destination = safe_path(root, "outputs/audits/data_audit.json")
