@@ -18,6 +18,9 @@ def main() -> int:
     stability = commands.add_parser("analyze-stability", help="rolling group ablation and retrospective attribution")
     stability.add_argument("--root", type=Path, default=Path.cwd())
     stability.add_argument("--run-id", required=True)
+    features = commands.add_parser("analyze-features", help="past-only feature selection and constrained nonlinear comparison")
+    features.add_argument("--root", type=Path, default=Path.cwd())
+    features.add_argument("--run-id", required=True)
     args = parser.parse_args()
     root = args.root.resolve()
     if args.command == "build-dataset":
@@ -31,6 +34,10 @@ def main() -> int:
     if args.command == "analyze-stability":
         from emo_agent.stability import run_stability
         print(json.dumps(run_stability(root, args.run_id), ensure_ascii=False))
+        return 0
+    if args.command == "analyze-features":
+        from emo_agent.features import run
+        print(json.dumps(run(root, args.run_id), ensure_ascii=False))
         return 0
     report = audit_project(root)
     destination = safe_path(root, "outputs/audits/data_audit.json")

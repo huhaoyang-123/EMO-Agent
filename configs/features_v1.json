@@ -1,0 +1,73 @@
+{
+  "source": "data/derived/cutoff_v1",
+  "horizons": [
+    1,
+    5
+  ],
+  "representations": [
+    "current",
+    "lag1",
+    "lag2",
+    "mean3",
+    "mean5"
+  ],
+  "families": {
+    "net": [
+      "net_sentiment"
+    ],
+    "equal": [
+      "equal_weight_sentiment"
+    ],
+    "change": [
+      "sentiment_change_5"
+    ],
+    "heat": [
+      "post_heat_20"
+    ],
+    "net_heat": [
+      "net_sentiment",
+      "post_heat_20"
+    ]
+  },
+  "C": 0.01,
+  "seed": 42,
+  "correlation_limit": 0.95,
+  "minimum_validation_gain": 0.002,
+  "simplicity_tolerance": 0.001,
+  "tree": {
+    "max_iter": 50,
+    "max_leaf_nodes": 4,
+    "max_depth": 2,
+    "learning_rate": 0.05,
+    "min_samples_leaf": 40,
+    "l2_regularization": 10.0
+  },
+  "bootstrap_repetitions": 2000,
+  "bootstrap_block_length": 10,
+  "folds": [
+    {
+      "name": "2025Q1",
+      "train_end": "2024-09-30",
+      "validation_end": "2024-12-31",
+      "evaluation_end": "2025-03-31"
+    },
+    {
+      "name": "2025Q2",
+      "train_end": "2024-12-31",
+      "validation_end": "2025-03-31",
+      "evaluation_end": "2025-06-30"
+    },
+    {
+      "name": "2025Q3",
+      "train_end": "2025-03-31",
+      "validation_end": "2025-06-30",
+      "evaluation_end": "2025-09-30"
+    },
+    {
+      "name": "2025Q4",
+      "train_end": "2025-06-30",
+      "validation_end": "2025-09-30",
+      "evaluation_end": "2025-12-31"
+    }
+  ]
+}
