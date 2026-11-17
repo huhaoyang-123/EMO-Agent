@@ -56,3 +56,5 @@ python -m uv run --locked python scripts/rebuild_sentiment.py
 模型公式、四模型实际系数与下一步路线见 [docs/model_math.md](docs/model_math.md)。
 
 稳定性实验：`python -m uv run --locked emo-agent analyze-stability --run-id your_new_stability_run`。需要相同的 cutoff_v1 与 baseline_v1，本地输出包含逐季指标、八组模型和贡献分解；详见增益诊断报告。
+
+阶段5已完成情绪表达、时滞、自变量选择及浅层树对照，见[变量选择报告](docs/results/features_v1.md)。命令：`python -m uv run --locked emo-agent analyze-features --run-id your_new_features_run`。当前尚未找到稳定情绪变量或复杂度升级依据。
