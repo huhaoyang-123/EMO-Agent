@@ -63,7 +63,8 @@ def choose_c(train, validation, features, horizon, config):
 def prediction_rows(data, probability, horizon, scenario, fold, mask, C, threshold):
     result = data[["date", f"label_end_date_{horizon}", f"target_{horizon}"]].rename(columns={f"label_end_date_{horizon}":"label_end_date", f"target_{horizon}":"actual"}).copy()
     result["scenario"], result["fold"], result["horizon"] = scenario, fold, horizon
-    result["mask"], result["model"], result["C"] = mask, model_name(mask), C
+    result["mask"], result["model"] = mask, model_name(mask)
+    result["C"] = float(C) if C is not None else np.nan
     result["probability_up"] = probability
     result["predicted"] = (np.asarray(probability) >= threshold).astype(int)
     return result
