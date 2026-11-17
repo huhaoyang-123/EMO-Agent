@@ -4,7 +4,7 @@
 
 ## 当前阶段
 
-阶段4本地完成：Issue #7，feat/7-stability-attribution，已完成增益稳定性和来源检查。前置PR #4/#5/#6已合并，本分支尚待PR审阅。
+阶段4本地完成：Issue #7，feat/7-stability-attribution，已完成增益稳定性和来源检查。前置PR #4/#5/#6已合并，本分支已提交并推送，[PR #8](https://github.com/huhaoyang-123/EMO-Agent/pull/8)待审，尚未合并。
 
 冻结方案：docs/records/2026-11-17-stability-plan.md；配置configs/stability_v1.json。2025四季度向前验证及覆盖/方向/热度八组合、2026回顾分解均已完成。结果见docs/results/stability_v1.md。所有历史时期均不再声称是全新未见测试。
 
@@ -19,7 +19,7 @@
 - Python 3.13.7 + uv 0.13.7，`python -m uv sync --locked` 通过，uv.lock 锁定依赖与哈希。
 - `python -m uv run --locked pytest`：38 passed。
 - 本地真实数据审计通过：15 文件哈希一致，2,376 行行情、83,653 行情绪、3,044,795 篇帖子；日度合计一致。
-- 阶段1—3关联PR #4/#5/#6已合并。本轮已完成本地检查与复现，远程CI/PR状态待发布后更新。
+- 阶段1—3关联PR #4/#5/#6已合并。本轮已完成本地检查与复现，PR #8已创建；远程CI结果在PR检查页及Issue #7记录，按对应提交区分。
 
 
 ## 阶段2结果

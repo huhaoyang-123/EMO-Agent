@@ -1,6 +1,6 @@
 # 阶段4：稳定性与来源诊断
 
-日期2026-11-17；Issue [#7](https://github.com/huhaoyang-123/EMO-Agent/issues/7)；分支feat/7-stability-attribution。基于已合并的main 02daa0d；前置PR #4/#5/#6已合并。本轮本地完成，PR及CI待发布后更新，不自动合并。
+日期2026-11-17；Issue [#7](https://github.com/huhaoyang-123/EMO-Agent/issues/7)；分支feat/7-stability-attribution。基于已合并的main 02daa0d；前置PR #4/#5/#6已合并。本轮已提交、已推送，[PR #8](https://github.com/huhaoyang-123/EMO-Agent/pull/8)待审，尚未合并。远程CI结论按提交记录在PR检查页及Issue #7；不自动合并。
 
 ## 目标与修改
 
