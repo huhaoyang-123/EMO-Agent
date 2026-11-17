@@ -4,6 +4,8 @@
 
 ## 当前阶段
 
+阶段5本地完成、已提交推送；[PR #10](https://github.com/huhaoyang-123/EMO-Agent/pull/10)待审未合并，Issue #9记录远程检查。最新报告docs/results/features_v1.md。
+
 阶段4本地完成：Issue #7，feat/7-stability-attribution，已完成增益稳定性和来源检查。前置PR #4/#5/#6已合并，前置[PR #8](https://github.com/huhaoyang-123/EMO-Agent/pull/8)已合并（本轮fetch确认）。
 
 冻结方案：docs/records/2026-11-17-stability-plan.md；配置configs/stability_v1.json。2025四季度向前验证及覆盖/方向/热度八组合、2026回顾分解均已完成。结果见docs/results/stability_v1.md。所有历史时期均不再声称是全新未见测试。
@@ -47,7 +49,7 @@
 - 正式输出outputs/stability_v1/，144个模型、10,404行预测；完整复跑156个产物哈希一致，独立重算60项比较/贡献通过；原基线概率复现。临时复跑目录校验后删除。
 - 记录docs/records/2026-11-17-stability.md；报告docs/results/stability_v1.md。本次没有修改数据、标签、模型族或阈值，也没有用结果追加调参。
 
-## 阶段5进行中（2026-11-17）
+## 阶段5启动记录（2026-11-17，已完成）
 
 情绪表达/时滞/变量选择与受限非线性对照；冻结方案docs/records/2026-11-17-features-plan.md，配置configs/features_v1.json。GitHub连接失败暂以独立本地分支推进，评分前提交方案。
 
