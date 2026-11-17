@@ -4,7 +4,7 @@
 
 ## 当前阶段
 
-阶段4本地完成：Issue #7，feat/7-stability-attribution，已完成增益稳定性和来源检查。前置PR #4/#5/#6已合并，本分支已提交并推送，[PR #8](https://github.com/huhaoyang-123/EMO-Agent/pull/8)待审，尚未合并。
+阶段4本地完成：Issue #7，feat/7-stability-attribution，已完成增益稳定性和来源检查。前置PR #4/#5/#6已合并，前置[PR #8](https://github.com/huhaoyang-123/EMO-Agent/pull/8)已合并（本轮fetch确认）。
 
 冻结方案：docs/records/2026-11-17-stability-plan.md；配置configs/stability_v1.json。2025四季度向前验证及覆盖/方向/热度八组合、2026回顾分解均已完成。结果见docs/results/stability_v1.md。所有历史时期均不再声称是全新未见测试。
 
@@ -50,3 +50,9 @@
 ## 阶段5进行中（2026-11-17）
 
 情绪表达/时滞/变量选择与受限非线性对照；冻结方案docs/records/2026-11-17-features-plan.md，配置configs/features_v1.json。GitHub连接失败暂以独立本地分支推进，评分前提交方案。
+
+## 阶段5本地完成（2026-11-17）
+
+Issue #9，feat/stage5-feature-selection。25组情绪表达、只用过去的筛选与最小改善规则、相同变量浅层树对照均完成。3/8折选中情绪，随后季度均恶化；无稳定滞后/平滑增益。树总体概率误差更大，暂不升级复杂模型。报告docs/results/features_v1.md；输出outputs/features_v1/。
+
+42 tests passed（6条合成日期算术依赖弃用警告）；15文件审计通过；60产物复跑哈希一致，旧固定C臂预测复现及独立评分16项通过。初次UTF-8读取失败及修复已记录。下一步优先稳定公司/时段口径重构，覆盖与行情控制后的情绪表达；尚未执行。发布状态见Issue #9和本阶段PR。
