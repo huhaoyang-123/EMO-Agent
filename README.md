@@ -4,9 +4,9 @@
 
 ## 当前阶段
 
-阶段 2/3：时点对齐、标签、四个逻辑回归及固定测试已完成；结果见 [基线报告](docs/results/baseline_v1.md)。进度以 [PROGRESS.md](PROGRESS.md) 为准。
+阶段 4：跨季度稳定性与来源分解已完成；见 [增益诊断报告](docs/results/stability_v1.md)。既有 [基线报告](docs/results/baseline_v1.md) 保留。进度与发布状态以 [PROGRESS.md](PROGRESS.md) 为准。
 
-研究路径：共同样本 → 四个逻辑回归 → 固定测试（均已完成）；下一步再研究改善与每日运行 Agent。
+研究路径：共同样本 → 逻辑回归基线 → 固定测试 → 四季度验证与特征组分解（均已完成）。当前尚无稳定情绪增益证据，下一步优先数据口径与有限特征实验。每日运行 Agent 尚未实施。
 
 ## 启动
 
@@ -54,3 +54,5 @@ python -m uv run --locked python scripts/rebuild_sentiment.py
 研究路线见 [docs/research_plan.md](docs/research_plan.md)，数据说明见 [docs/data_dictionary.md](docs/data_dictionary.md)。文件完整与预测有效是两回事；情绪统计的历史实际可得时间仍未核实。
 
 模型公式、四模型实际系数与下一步路线见 [docs/model_math.md](docs/model_math.md)。
+
+稳定性实验：`python -m uv run --locked emo-agent analyze-stability --run-id your_new_stability_run`。需要相同的 cutoff_v1 与 baseline_v1，本地输出包含逐季指标、八组模型和贡献分解；详见增益诊断报告。
