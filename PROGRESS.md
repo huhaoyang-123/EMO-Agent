@@ -1,14 +1,12 @@
 # 项目进度
 
-更新日期：2026-11-13（Asia/Shanghai）
+更新日期：2026-11-17（Asia/Shanghai）
 
 ## 当前阶段
 
-阶段2预测时点/标签、阶段3四个逻辑回归与测试评估已完成，本地31测试通过。确定性复跑通过，所有模型与预测产物字节一致；模型 [PR #6](https://github.com/huhaoyang-123/EMO-Agent/pull/6) 已建立，远程CI结果见PR Checks。
+阶段4进行中：Issue #7，feat/7-stability-attribution，检查增益稳定性和来源。前置PR #4/#5/#6已合并，当前基于主分支。
 
-- 基础 PR #4 待审；样本 [PR #5](https://github.com/huhaoyang-123/EMO-Agent/pull/5) 已推送且CI通过。
-- 模型 [PR #6](https://github.com/huhaoyang-123/EMO-Agent/pull/6) 依赖样本PR；当前分支 feat/3-logistic-baseline；不自动合并。后续按基础→样本→模型顺序审阅。
-- 完整结果：[docs/results/baseline_v1.md](docs/results/baseline_v1.md)。
+冻结方案：docs/records/2026-11-17-stability-plan.md；配置configs/stability_v1.json。主分析为2025四季度向前验证及质量/方向/热度八组合；2026仅回顾性分解，不再视作独立未见测试。尚未查看本轮结果。
 
 ## 已完成
 
