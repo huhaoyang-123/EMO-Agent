@@ -1,0 +1,26 @@
+{
+  "source": "data/derived/cutoff_v1",
+  "dataset": "data/derived/company_pilot_v1",
+  "stock_source": "data/input/market/stock_daily.csv",
+  "horizons": [1, 5],
+  "C": 0.01,
+  "seed": 42,
+  "threshold": 0.5,
+  "bootstrap_repetitions": 4000,
+  "bootstrap_block_length": 10,
+  "interval_quantiles": [0.0125, 0.9875],
+  "minimum_brier_gain": 0.001,
+  "company_market": ["stock_return_1", "stock_return_5", "stock_return_20", "stock_volatility_5", "stock_volatility_20", "volume_heat_20", "log_turnover", "log_float_value", "return_1", "return_5", "return_20", "volatility_20"],
+  "index_market": ["return_1", "return_5", "return_20", "volatility_5", "volatility_20", "amount_relative_20"],
+  "controls": ["slot_coverage", "hour_coverage", "window_hours", "sentiment_missing", "heat_history_missing", "direction_history_missing"],
+  "attention": ["log_post_rate", "post_heat_20"],
+  "direction": ["net_sentiment", "sentiment_change_5"],
+  "folds": [
+    {"name": "2025Q1", "train_end": "2024-12-31", "evaluation_end": "2025-03-31", "period": "primary_2025"},
+    {"name": "2025Q2", "train_end": "2025-03-31", "evaluation_end": "2025-06-30", "period": "primary_2025"},
+    {"name": "2025Q3", "train_end": "2025-06-30", "evaluation_end": "2025-09-30", "period": "primary_2025"},
+    {"name": "2025Q4", "train_end": "2025-09-30", "evaluation_end": "2025-12-31", "period": "primary_2025"},
+    {"name": "2026Q1", "train_end": "2025-12-31", "evaluation_end": "2026-03-31", "period": "diagnostic_2026H1"},
+    {"name": "2026Q2", "train_end": "2026-03-31", "evaluation_end": "2026-06-30", "period": "diagnostic_2026H1"}
+  ]
+}

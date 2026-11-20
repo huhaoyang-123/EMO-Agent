@@ -1,8 +1,10 @@
 # 项目进度
 
-更新日期：2026-11-17（Asia/Shanghai）
+更新日期：2026-11-20（Asia/Shanghai）
 
 ## 当前阶段
+
+阶段6个股有限试点进行中：Issue #11，feat/11-company-pilot。前置PR #10已核实合并。已迁入股票日线与字典并核验哈希；方案见docs/records/2026-11-20-company-pilot-plan.md。尚未评分，暂无公司情绪增量结论。以下早期阶段发布状态为当时记录。
 
 阶段5本地完成、已提交推送；[PR #10](https://github.com/huhaoyang-123/EMO-Agent/pull/10)待审未合并，Issue #9记录远程检查。最新报告docs/results/features_v1.md。
 
