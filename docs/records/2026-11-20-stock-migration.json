@@ -1,0 +1,16 @@
+[
+  {
+    "source": "C:\\Users\\haoyang hu\\Desktop\\金融工程\\指数\\clean\\stock_daily.csv",
+    "destination": "D:\\项目\\金融工程\\EMO  Agent\\data\\input\\market\\stock_daily.csv",
+    "bytes": 11360452,
+    "sha256": "ad4e19731c714783f77747f224373f8e05cbc37267d313e5de0b76bc073c7641",
+    "source_absent": true
+  },
+  {
+    "source": "C:\\Users\\haoyang hu\\Desktop\\金融工程\\指数\\data_dictionary\\A10_stock_daily__TRD_Dalyr[DES][csv].txt",
+    "destination": "D:\\项目\\金融工程\\EMO  Agent\\data\\input\\market\\stock_daily_dictionary.txt",
+    "bytes": 3643,
+    "sha256": "3cb30d79f421339a4f09805ca4b3d98220222c7761cd56bd6c6860642e090d84",
+    "source_absent": true
+  }
+]
