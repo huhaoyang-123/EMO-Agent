@@ -6,7 +6,8 @@ import pandas as pd
 
 
 def safe_path(root: Path, relative: str) -> Path:
-    path = (root / relative).resolve()
+    # manifests written on Windows store "models\\x.joblib"; accept both separators
+    path = (root / relative.replace("\\", "/")).resolve()
     if not path.is_relative_to(root.resolve()) or path == root.resolve():
         raise ValueError("manifest path escapes project root")
     return path
