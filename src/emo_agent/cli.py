@@ -21,8 +21,21 @@ def main() -> int:
     features = commands.add_parser("analyze-features", help="past-only feature selection and constrained nonlinear comparison")
     features.add_argument("--root", type=Path, default=Path.cwd())
     features.add_argument("--run-id", required=True)
+    company_build = commands.add_parser("build-company-panel", help="build cutoff-aligned historical company panel")
+    company_build.add_argument("--root", type=Path, default=Path.cwd())
+    company_run = commands.add_parser("analyze-company", help="frozen company and index attention/direction comparison")
+    company_run.add_argument("--root", type=Path, default=Path.cwd())
+    company_run.add_argument("--run-id", required=True)
     args = parser.parse_args()
     root = args.root.resolve()
+    if args.command == "build-company-panel":
+        from emo_agent.company import build
+        print(json.dumps(build(root), ensure_ascii=False))
+        return 0
+    if args.command == "analyze-company":
+        from emo_agent.company import run
+        print(json.dumps(run(root, args.run_id), ensure_ascii=False))
+        return 0
     if args.command == "build-dataset":
         from emo_agent.dataset import build_dataset
         print(json.dumps(build_dataset(root), ensure_ascii=False))

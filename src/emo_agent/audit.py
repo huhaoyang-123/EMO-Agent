@@ -61,6 +61,11 @@ def audit_project(root: Path) -> dict:
         if len(detail) != summary["dynamic_member_rows"] or int(detail.Tpostnum.sum()) != summary["dynamic_member_posts"]:
             raise ValueError("summary does not reconcile")
         report["checks"] = {"price_rows": len(prices), "sentiment_rows": len(detail), "posts": int(detail.Tpostnum.sum()), "daily_reconciliation": "passed"}
+        if any(x["path"] == "data/input/market/stock_daily.csv" for x in manifest["files"]):
+            from emo_agent.company import validate_stocks
+            stocks = pd.read_csv(root / "data/input/market/stock_daily.csv", dtype={"Stkcd": str})
+            validate_stocks(stocks)
+            report["checks"].update(stock_rows=len(stocks), stock_companies=int(stocks.Stkcd.nunique()))
     except (ValueError, KeyError) as exc:
         report["ok"] = False
         report["error"] = str(exc)
