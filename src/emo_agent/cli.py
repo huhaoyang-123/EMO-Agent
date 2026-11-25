@@ -27,6 +27,11 @@ def main() -> int:
     actx.add_argument("--root", type=Path, default=Path.cwd())
     actx.add_argument("--run-id", required=True)
     actx.add_argument("--config", default="configs/context_v1.json")
+    company_build = commands.add_parser("build-company-panel", help="build cutoff-aligned historical company panel")
+    company_build.add_argument("--root", type=Path, default=Path.cwd())
+    company_run = commands.add_parser("analyze-company", help="frozen company and index attention/direction comparison")
+    company_run.add_argument("--root", type=Path, default=Path.cwd())
+    company_run.add_argument("--run-id", required=True)
     commands.add_parser("shadow-freeze", help="task 6: fit and freeze market-only models on data up to 2026-06-30").add_argument("--root", type=Path, default=Path.cwd())
     sp = commands.add_parser("shadow-predict", help="task 6: append frozen-model probabilities for one new date")
     sp.add_argument("--root", type=Path, default=Path.cwd())
@@ -38,6 +43,14 @@ def main() -> int:
     se.add_argument("--end")
     args = parser.parse_args()
     root = args.root.resolve()
+    if args.command == "build-company-panel":
+        from emo_agent.company import build
+        print(json.dumps(build(root), ensure_ascii=False))
+        return 0
+    if args.command == "analyze-company":
+        from emo_agent.company import run
+        print(json.dumps(run(root, args.run_id), ensure_ascii=False))
+        return 0
     if args.command == "build-dataset":
         from emo_agent.dataset import build_dataset
         print(json.dumps(build_dataset(root), ensure_ascii=False))

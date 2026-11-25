@@ -1,5 +1,5 @@
 {
-  "version": 1,
+  "version": 2,
   "recorded_on": "2026-11-12",
   "files": [
     {
@@ -91,6 +91,19 @@
       "source_relative": "情绪分析/931723全成分股情绪/summary.json",
       "bytes": 528,
       "sha256": "28c4d61bc84ccaa622fc48bd2126c59ea452e8e82f46cf81af9b530542c86de9"
+    },
+    {
+      "path": "data/input/market/stock_daily.csv",
+      "source_relative": "指数/clean/stock_daily.csv",
+      "bytes": 11360452,
+      "sha256": "ad4e19731c714783f77747f224373f8e05cbc37267d313e5de0b76bc073c7641"
+    },
+    {
+      "path": "data/input/market/stock_daily_dictionary.txt",
+      "source_relative": "指数/data_dictionary/A10_stock_daily__TRD_Dalyr[DES][csv].txt",
+      "bytes": 3643,
+      "sha256": "3cb30d79f421339a4f09805ca4b3d98220222c7761cd56bd6c6860642e090d84"
     }
-  ]
+  ],
+  "updated_on": "2026-11-20"
 }

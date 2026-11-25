@@ -1,12 +1,12 @@
 # EMO Agent
 
-研究对象为中证光通信主题指数 **931723**。使用历史行情与成分股股吧情绪，分别估计下一交易日、未来第 5 个交易日收盘价高于当日收盘价的概率。第一版采用逻辑回归，比较「行情」与「行情＋情绪」。暂不加入事件、ETF 或自动交易。
+当前研究是中证光通信主题指数 **931723 历史成分公司的有限试点**，保留指数作为参照。使用历史行情与股吧统计，估计下一交易日、未来第5个交易日可比复权收盘上涨概率。暂不加入事件、ETF、实时采集或自动交易。
 
 ## 当前阶段
 
-阶段 4：跨季度稳定性与来源分解已完成；见 [增益诊断报告](docs/results/stability_v1.md)。既有 [基线报告](docs/results/baseline_v1.md) 保留。进度与发布状态以 [PROGRESS.md](PROGRESS.md) 为准。
+阶段6已完成公司面板、三组共享逻辑回归及同口径指数对照，见 [个股有限试点报告](docs/results/company_pilot_v1.md)。31,001行特征合格公司日，64个历史代码、625日期；2025/2026历史诊断没有通过稳定情绪方向增益门槛。此前指数、稳定性、变量选择结果均保留。发布状态见 [PROGRESS.md](PROGRESS.md)。
 
-研究路径：共同样本 → 逻辑回归基线 → 固定测试 → 四季度验证与特征组分解（均已完成）。当前尚无稳定情绪增益证据，下一步优先数据口径与有限特征实验。每日运行 Agent 尚未实施。
+这是可复现的历史研究底座；每日运行Agent尚未实施，不能把现有结果包装成已验证有效的预测产品。
 
 ## 启动
 
@@ -58,3 +58,5 @@ python -m uv run --locked python scripts/rebuild_sentiment.py
 稳定性实验：`python -m uv run --locked emo-agent analyze-stability --run-id your_new_stability_run`。需要相同的 cutoff_v1 与 baseline_v1，本地输出包含逐季指标、八组模型和贡献分解；详见增益诊断报告。
 
 阶段5已完成情绪表达、时滞、自变量选择及浅层树对照，见[变量选择报告](docs/results/features_v1.md)。命令：`python -m uv run --locked emo-agent analyze-features --run-id your_new_features_run`。当前尚未找到稳定情绪变量或复杂度升级依据。
+
+个股试点：先 `python -m uv run --locked emo-agent build-company-panel`，然后 `python -m uv run --locked emo-agent analyze-company --run-id your_new_company_run`。需要已有cutoff_v1和迁入的stock_daily.csv，数据缺失时先按data/README.md准备并运行build-dataset。已有公司面板目录不覆盖。独立核验：`python -m uv run --locked python scripts/verify_company_pilot.py --run-id your_new_company_run`。
