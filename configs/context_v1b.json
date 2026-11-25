@@ -1,0 +1,143 @@
+{
+  "source": "data/derived/cutoff_v1",
+  "context_dataset": "data/derived/context_v1",
+  "market_index": "000985",
+  "horizons": [
+    1,
+    5
+  ],
+  "C_grid": [
+    0.01,
+    0.1,
+    1.0,
+    10.0
+  ],
+  "fixed_C": 0.01,
+  "threshold": 0.5,
+  "random_seed": 42,
+  "bootstrap_block_length": 10,
+  "bootstrap_repetitions": 2000,
+  "groups": {
+    "G": [
+      "market_return_1",
+      "market_volatility_20",
+      "relative_return_5"
+    ],
+    "B": [
+      "breadth_up",
+      "return_dispersion"
+    ]
+  },
+  "models": [
+    "M",
+    "MG",
+    "MS",
+    "MGS",
+    "MGB",
+    "MGBS",
+    "MGR",
+    "MGBR"
+  ],
+  "comparisons": [
+    [
+      "M",
+      "MG",
+      "G_given_M"
+    ],
+    [
+      "M",
+      "MS",
+      "S_given_M"
+    ],
+    [
+      "MG",
+      "MGS",
+      "S_given_MG"
+    ],
+    [
+      "MG",
+      "MGB",
+      "B_given_MG"
+    ],
+    [
+      "MGB",
+      "MGBS",
+      "S_given_MGB"
+    ],
+    [
+      "MG",
+      "MGR",
+      "R_given_MG"
+    ],
+    [
+      "MGB",
+      "MGBR",
+      "R_given_MGB"
+    ],
+    [
+      "MGS",
+      "MGR",
+      "R_vs_S_given_MG"
+    ]
+  ],
+  "folds": [
+    {
+      "name": "2025Q1",
+      "train_end": "2024-09-30",
+      "validation_end": "2024-12-31",
+      "evaluation_end": "2025-03-31"
+    },
+    {
+      "name": "2025Q2",
+      "train_end": "2024-12-31",
+      "validation_end": "2025-03-31",
+      "evaluation_end": "2025-06-30"
+    },
+    {
+      "name": "2025Q3",
+      "train_end": "2025-03-31",
+      "validation_end": "2025-06-30",
+      "evaluation_end": "2025-09-30"
+    },
+    {
+      "name": "2025Q4",
+      "train_end": "2025-06-30",
+      "validation_end": "2025-09-30",
+      "evaluation_end": "2025-12-31"
+    }
+  ],
+  "retrospective": {
+    "name": "2026H1",
+    "refit_end": "2025-12-31",
+    "evaluation_end": "2026-06-30"
+  },
+  "decision_rule": {
+    "group_helps_if": "pooled 2025 Brier delta < 0 AND Brier improves in at least 3 of 4 quarters, in the inner-selected-C arm; fixed-C arm must not contradict in sign",
+    "2026H1": "reported as retrospective only; cannot overturn or confirm the rule"
+  },
+  "residual": {
+    "targets": [
+      "net_sentiment",
+      "equal_weight_sentiment",
+      "sentiment_change_5",
+      "post_heat_20"
+    ],
+    "regressors": "MARKET + G",
+    "method": "OLS with intercept on training-median-imputed inputs; fitted on the fitting set of each step (train for C selection, refit for evaluation) and applied to later rows without re-estimation",
+    "coverage_columns_kept_raw": [
+      "company_coverage",
+      "slot_coverage",
+      "sentiment_missing"
+    ]
+  },
+  "calibration": {
+    "bins": 10,
+    "report": [
+      "mean_predicted",
+      "actual_up_rate",
+      "ece_10bin",
+      "calibration_intercept",
+      "calibration_slope"
+    ]
+  }
+}
