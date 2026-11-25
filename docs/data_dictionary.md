@@ -68,6 +68,22 @@
 
 指标从发布后行情起算，不使用发布前回算作为第一版特征历史。2026-06-30 的 5 日标签终点为 2026-07-07，可使用行情表中已有未来价格做标签，不用于输入。
 
+## 阶段6个股有限试点（2026-11-20）
+
+原文“个股日线未迁入”为阶段1状态；现已直接迁入 `data/input/market/stock_daily.csv` 与 `stock_daily_dictionary.txt`。CSV 59,972行、65代码，2022-12-01—2026-10-19；同日迁移记录保存前后哈希，docs/data_manifest.json版本2纳入两文件，共17个输入。
+
+- Stkcd：六位证券代码；Trddt：市场交易日；两者唯一。
+- Clsprc：名义收盘元/股；Adjprcnd：不含现金红利再投资的可比收盘，个股收益和标签依据；不使用名义收盘跨除权比较。
+- Dnshrtrd：成交股数，0为无交易；Dnvaltrd：成交金额元；Dsmvosd：流通市值千元。
+- turnover_pct：100×Dnshrtrd×Clsprc/(1000×Dsmvosd)，为由现有字段推算的换手率百分数；尚未与官方换手率独立核验。
+- Markettype：当前均为人民币A股（含不同交易板块）；Trdsta为正常/ST等状态编码，不把它误当停牌布尔值。
+- Ahshrtrd_D/Ahvaltrd_D：盘后量额，避免未核实口径下重复相加，本轮不使用。
+- 股吧没有用户标识或每日交易人数；总帖/阅读数不能推算独立投资者人数。股东户数也未提供。
+
+派生 `data/derived/company_pilot_v1/`：32,228预期公司日，31,001特征合格行、625日期、64历史代码；合格行中1/5日标签分别缺9/28行，训练与评估还要按成熟边界剔除。source_trace.csv保留每个公司日的源ID，具体字段公式和观测限制见 docs/results/company_pilot_v1.md。
+
+新增 `hour_coverage=观测时段小时/预期时段小时`；`log_post_rate=log(1+总帖/观测小时)`；热度与情绪变化按公司交易日独立滚动，窗口不跨缺失日凑数。情绪缺失不设为0，不因缺失而直接删行。公司预测日必须仍为成员；历史成分而非未来固定存续名单。
+
 ## context_v1 新增变量（任务三，Issue #14）
 
 来源：data/input/context/market_index_000985.csv（CSMAR 国内指数日行情，中证全指收盘）、member_stock_returns.csv（CSMAR 个股日行情 Dretnd，不含现金红利再投资），成员区间 data/input/market/index_931723_members.csv。全部使用预测日 15:00 收盘及以前的数据，早于 16:00 截止。生成：`emo-agent build-context` → data/derived/context_v1/context_features.csv（metadata.json 记录输入与输出哈希）。
