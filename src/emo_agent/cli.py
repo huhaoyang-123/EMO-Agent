@@ -27,6 +27,15 @@ def main() -> int:
     actx.add_argument("--root", type=Path, default=Path.cwd())
     actx.add_argument("--run-id", required=True)
     actx.add_argument("--config", default="configs/context_v1.json")
+    commands.add_parser("shadow-freeze", help="task 6: fit and freeze market-only models on data up to 2026-06-30").add_argument("--root", type=Path, default=Path.cwd())
+    sp = commands.add_parser("shadow-predict", help="task 6: append frozen-model probabilities for one new date")
+    sp.add_argument("--root", type=Path, default=Path.cwd())
+    sp.add_argument("--date", required=True)
+    sp.add_argument("--mode", default="daily", choices=["daily", "retro_batch"])
+    se = commands.add_parser("shadow-evaluate", help="task 6: score logged predictions whose labels have matured")
+    se.add_argument("--root", type=Path, default=Path.cwd())
+    se.add_argument("--start")
+    se.add_argument("--end")
     args = parser.parse_args()
     root = args.root.resolve()
     if args.command == "build-dataset":
@@ -52,6 +61,18 @@ def main() -> int:
     if args.command == "analyze-context":
         from emo_agent.context import run_context
         print(json.dumps(run_context(root, args.run_id, args.config), ensure_ascii=False))
+        return 0
+    if args.command == "shadow-freeze":
+        from emo_agent.shadow import freeze_models
+        print(json.dumps(freeze_models(root), ensure_ascii=False))
+        return 0
+    if args.command == "shadow-predict":
+        from emo_agent.shadow import shadow_predict
+        print(json.dumps(shadow_predict(root, args.date, args.mode), ensure_ascii=False))
+        return 0
+    if args.command == "shadow-evaluate":
+        from emo_agent.shadow import shadow_evaluate
+        print(json.dumps(shadow_evaluate(root, args.start, args.end), ensure_ascii=False, default=float))
         return 0
     report = audit_project(root)
     destination = safe_path(root, "outputs/audits/data_audit.json")
