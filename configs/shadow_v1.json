@@ -1,0 +1,22 @@
+{
+  "freeze": {
+    "train_end": "2025-12-31",
+    "validation_end": "2026-06-30",
+    "refit_end": "2026-06-30",
+    "first_sample_date": "2023-11-28"
+  },
+  "models": ["M", "MG", "MGB"],
+  "groups": {
+    "G": ["market_return_1", "market_volatility_20", "relative_return_5"],
+    "B": ["breadth_up", "return_dispersion"]
+  },
+  "horizons": [1, 5],
+  "C_grid": [0.01, 0.1, 1.0, 10.0],
+  "threshold": 0.5,
+  "random_seed": 42,
+  "evaluation": {"start": "2026-07-01", "end": "2026-10-09", "note": "000985 input ends 2026-10-09; all models scored on the same dates"},
+  "comparisons": [["prior", "M", "M_vs_prior"], ["M", "MG", "G_given_M"], ["MG", "MGB", "B_given_MG"], ["prior", "MGB", "MGB_vs_prior"]],
+  "bootstrap_block_length": 10,
+  "bootstrap_repetitions": 2000,
+  "calibration_bins": 10
+}
