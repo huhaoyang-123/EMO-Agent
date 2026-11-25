@@ -67,3 +67,17 @@
 - metadata.json：源数据哈希、特征白名单、输出哈希与构建提交；excluded_dates.csv：20 个历史窗口不足日期。
 
 指标从发布后行情起算，不使用发布前回算作为第一版特征历史。2026-06-30 的 5 日标签终点为 2026-07-07，可使用行情表中已有未来价格做标签，不用于输入。
+
+## context_v1 新增变量（任务三，Issue #14）
+
+来源：data/input/context/market_index_000985.csv（CSMAR 国内指数日行情，中证全指收盘）、member_stock_returns.csv（CSMAR 个股日行情 Dretnd，不含现金红利再投资），成员区间 data/input/market/index_931723_members.csv。全部使用预测日 15:00 收盘及以前的数据，早于 16:00 截止。生成：`emo-agent build-context` → data/derived/context_v1/context_features.csv（metadata.json 记录输入与输出哈希）。
+
+| 字段 | 定义 |
+|---|---|
+| market_return_1 | 000985 当日收盘 / 前一交易日收盘 − 1 |
+| market_volatility_20 | 000985 过去 20 个日收益标准差（ddof=1） |
+| relative_return_5 | 931723 return_5 − 000985 5 日收益 |
+| breadth_up | 当日 931723 历史成员（in_date ≤ 日期 < out_date）中有收益记录的股票里，日收益 > 0 的比例 |
+| return_dispersion | 上述成员股当日收益横截面标准差（ddof=1） |
+| breadth_n | 当日参与计算的成员股数（只作检查，不入模） |
+| *_resid（运行时生成，不落盘） | net_sentiment、equal_weight_sentiment、sentiment_change_5、post_heat_20 对 6 个行情变量 + 3 个大盘变量的 OLS 残差；只在每一步的拟合集上估计，之后的行只应用不重估 |
