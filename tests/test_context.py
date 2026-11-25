@@ -60,3 +60,33 @@ def test_summarize_pairs_models_on_same_dates():
     g = s["comparisons"].query("comparison=='G_given_M' and arm=='selected_C' and horizon==1").iloc[0]
     assert g.brier_delta_2025_pooled < 0 and g.quarters_improved == 4
     assert s["verdict"].query("comparison=='G_given_M'").helps_by_frozen_rule.all()
+
+
+def _addendum_config():
+    return json.loads((Path(__file__).resolve().parents[1] / "configs/context_v1b.json").read_text())
+
+
+def test_residuals_fit_only_on_fitting_rows_and_remove_linear_market_part():
+    from emo_agent.context import add_residuals
+    c = _addendum_config(); rng = np.random.default_rng(3)
+    cols = MARKET + c["groups"]["G"] + SENTIMENT
+    fit = pd.DataFrame(rng.normal(size=(200, len(cols))), columns=cols)
+    fit["net_sentiment"] = 2 * fit["return_1"] + 0.1 * rng.normal(size=200)
+    later = pd.DataFrame(rng.normal(size=(50, len(cols))), columns=cols)
+    a_fit, a_later = add_residuals(fit, [fit, later], c)
+    assert abs(np.corrcoef(a_fit.net_sentiment_resid, fit.return_1)[0, 1]) < 1e-8
+    shocked = later.copy(); shocked["net_sentiment"] += 100  # changing later rows must not change fitted coefficients
+    _, b_later = add_residuals(fit, [fit, shocked], c)
+    np.testing.assert_allclose(b_later.net_sentiment_resid - a_later.net_sentiment_resid, 100)
+    assert features_for("MGR", c)[-7:] == [f"{t}_resid" for t in c["residual"]["targets"]] + c["residual"]["coverage_columns_kept_raw"]
+    with pytest.raises(ValueError):
+        features_for("MGSR", c)
+
+
+def test_calibration_perfect_and_overconfident():
+    from emo_agent.context import calibration
+    rng = np.random.default_rng(5); p = rng.uniform(0.05, 0.95, 20000); y = (rng.uniform(size=20000) < p).astype(int)
+    good = calibration(y, p)
+    assert good["ece_10bin"] < 0.02 and abs(good["calibration_slope"] - 1) < 0.1
+    over = calibration(y, np.clip(0.5 + 2 * (p - 0.5), 0.01, 0.99))
+    assert over["calibration_slope"] < 0.8

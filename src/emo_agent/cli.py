@@ -26,6 +26,7 @@ def main() -> int:
     actx = commands.add_parser("analyze-context", help="task 3: M/MG/MS/MGS/MGB/MGBS rolling comparison")
     actx.add_argument("--root", type=Path, default=Path.cwd())
     actx.add_argument("--run-id", required=True)
+    actx.add_argument("--config", default="configs/context_v1.json")
     args = parser.parse_args()
     root = args.root.resolve()
     if args.command == "build-dataset":
@@ -50,7 +51,7 @@ def main() -> int:
         return 0
     if args.command == "analyze-context":
         from emo_agent.context import run_context
-        print(json.dumps(run_context(root, args.run_id), ensure_ascii=False))
+        print(json.dumps(run_context(root, args.run_id, args.config), ensure_ascii=False))
         return 0
     report = audit_project(root)
     destination = safe_path(root, "outputs/audits/data_audit.json")

@@ -81,13 +81,47 @@ def build_context(root: Path) -> dict:
 
 
 def features_for(model: str, config: dict) -> list:
-    if model[0] != "M" or len(set(model)) != len(model) or not set(model[1:]) <= {"G", "B", "S"}:
+    allowed = {"G", "B", "S", "R"} if "residual" in config else {"G", "B", "S"}
+    if model[0] != "M" or len(set(model)) != len(model) or not set(model[1:]) <= allowed or {"S", "R"} <= set(model):
         raise ValueError("invalid model name")
     cols = list(MARKET)
     if "G" in model: cols += config["groups"]["G"]
     if "B" in model: cols += config["groups"]["B"]
     if "S" in model: cols += SENTIMENT
+    if "R" in model:
+        r = config["residual"]
+        cols += [f"{t}_resid" for t in r["targets"]] + r["coverage_columns_kept_raw"]
     return cols
+
+
+def add_residuals(fit: pd.DataFrame, apply: list, config: dict) -> list:
+    """Fit OLS(sentiment ~ MARKET + G) on `fit` only; return copies of `apply` with *_resid columns.
+    Medians and coefficients come from `fit`; later rows are never used to estimate them."""
+    targets, X = config["residual"]["targets"], MARKET + config["groups"]["G"]
+    med = fit[X + targets].median()
+    A = np.column_stack([np.ones(len(fit)), fit[X].fillna(med[X]).to_numpy(float)])
+    out = [d.copy() for d in apply]
+    for t in targets:
+        beta, *_ = np.linalg.lstsq(A, fit[t].fillna(med[t]).to_numpy(float), rcond=None)
+        for d, o in zip(apply, out):
+            B = np.column_stack([np.ones(len(d)), d[X].fillna(med[X]).to_numpy(float)])
+            o[f"{t}_resid"] = d[t].fillna(med[t]).to_numpy(float) - B @ beta
+    return out
+
+
+def calibration(y, p, bins=10) -> dict:
+    from sklearn.linear_model import LogisticRegression
+    y, p = np.asarray(y, int), np.clip(np.asarray(p, float), 1e-6, 1 - 1e-6)
+    edges = np.linspace(0, 1, bins + 1)
+    which = np.clip(np.digitize(p, edges[1:-1]), 0, bins - 1)
+    ece = sum(abs(p[which == b].mean() - y[which == b].mean()) * (which == b).mean() for b in range(bins) if (which == b).any())
+    out = {"mean_predicted": float(p.mean()), "actual_up_rate": float(y.mean()), "ece_10bin": float(ece),
+           "calibration_intercept": np.nan, "calibration_slope": np.nan}
+    z = np.log(p / (1 - p)).reshape(-1, 1)
+    if len(np.unique(y)) == 2 and np.ptp(z) > 1e-9:
+        m = LogisticRegression(C=np.inf, solver="lbfgs", max_iter=1000).fit(z, y)
+        out.update({"calibration_intercept": float(m.intercept_[0]), "calibration_slope": float(m.coef_[0, 0])})
+    return out
 
 
 def load_frame(root: Path, config: dict) -> pd.DataFrame:
@@ -113,9 +147,9 @@ def _rows(data, prob, h, arm, fold, model, C, thr):
     return out
 
 
-def run_context(root: Path, run_id: str) -> dict:
+def run_context(root: Path, run_id: str, config_file: str = "configs/context_v1.json") -> dict:
     root = Path(root)
-    cfg_path = root / "configs/context_v1.json"
+    cfg_path = safe_path(root, config_file)
     config = json.loads(cfg_path.read_text(encoding="utf-8"))
     frame = load_frame(root, config)
     out = root / "outputs" / run_id
@@ -132,13 +166,18 @@ def run_context(root: Path, run_id: str) -> dict:
             prior = float(parts["refit"][f"target_{h}"].mean())
             for arm in ["selected_C", "fixed_C"]:
                 preds.append(_rows(ev, np.full(len(ev), prior), h, arm, name, "prior", None, config["threshold"]))
+            if "residual" in config:
+                tr_r, va_r = add_residuals(parts["train"], [parts["train"], parts["validation"]], config)
+                rf_r, ev_r = add_residuals(parts["refit"], [parts["refit"], ev], config)
             for model in config["models"]:
                 feats = features_for(model, config)
-                C_sel, tr = choose_c(parts["train"], parts["validation"], feats, h, config)
+                use_r = "R" in model
+                train_, valid_, refit_, ev_ = (tr_r, va_r, rf_r, ev_r) if use_r else (parts["train"], parts["validation"], parts["refit"], ev)
+                C_sel, tr = choose_c(train_, valid_, feats, h, config)
                 trials += [{"horizon": h, "fold": name, "model": model, **t} for t in tr]
                 for arm, C in [("selected_C", C_sel), ("fixed_C", config["fixed_C"])]:
                     path = out / "models" / arm / name / f"{model}_{h}d.joblib"
-                    prob = fit_predict_save(parts["refit"], ev, h, feats, C, config, path)
+                    prob = fit_predict_save(refit_, ev_, h, feats, C, config, path)
                     preds.append(_rows(ev, prob, h, arm, name, model, C, config["threshold"]))
     P = pd.concat(preds, ignore_index=True)
     P.to_csv(out / "predictions.csv", index=False)
@@ -194,5 +233,8 @@ def summarize(P: pd.DataFrame, config: dict) -> dict:
         verdict.append({"horizon": h, "comparison": label, "selected_pooled_delta": sel.brier_delta_2025_pooled,
                         "selected_quarters_improved": int(sel.quarters_improved), "fixed_pooled_delta": fix.brier_delta_2025_pooled,
                         "retro_2026H1_selected_delta": sel.get("brier_delta_2026H1", np.nan), "helps_by_frozen_rule": helps})
-    return {"fold_metrics": pd.DataFrame(metrics), "pooled_metrics": pd.DataFrame(pooled),
+    calib = []
+    for (arm, h, model), g in dev.groupby(["arm", "horizon", "model"]):
+        calib.append({"arm": arm, "horizon": h, "fold": "2025_pooled", "model": model, **calibration(g.actual, g.probability_up, config.get("calibration", {}).get("bins", 10))})
+    return {"fold_metrics": pd.DataFrame(metrics), "pooled_metrics": pd.DataFrame(pooled), "calibration": pd.DataFrame(calib),
             "comparisons": C, "verdict": pd.DataFrame(verdict)}
