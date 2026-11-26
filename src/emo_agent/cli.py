@@ -21,6 +21,12 @@ def main() -> int:
     features = commands.add_parser("analyze-features", help="past-only feature selection and constrained nonlinear comparison")
     features.add_argument("--root", type=Path, default=Path.cwd())
     features.add_argument("--run-id", required=True)
+    bctx = commands.add_parser("build-context", help="task 3: broad-market context and constituent breadth features")
+    bctx.add_argument("--root", type=Path, default=Path.cwd())
+    actx = commands.add_parser("analyze-context", help="task 3: M/MG/MS/MGS/MGB/MGBS rolling comparison")
+    actx.add_argument("--root", type=Path, default=Path.cwd())
+    actx.add_argument("--run-id", required=True)
+    actx.add_argument("--config", default="configs/context_v1.json")
     company_build = commands.add_parser("build-company-panel", help="build cutoff-aligned historical company panel")
     company_build.add_argument("--root", type=Path, default=Path.cwd())
     company_run = commands.add_parser("analyze-company", help="frozen company and index attention/direction comparison")
@@ -51,6 +57,14 @@ def main() -> int:
     if args.command == "analyze-features":
         from emo_agent.features import run
         print(json.dumps(run(root, args.run_id), ensure_ascii=False))
+        return 0
+    if args.command == "build-context":
+        from emo_agent.context import build_context
+        print(json.dumps(build_context(root), ensure_ascii=False))
+        return 0
+    if args.command == "analyze-context":
+        from emo_agent.context import run_context
+        print(json.dumps(run_context(root, args.run_id, args.config), ensure_ascii=False))
         return 0
     report = audit_project(root)
     destination = safe_path(root, "outputs/audits/data_audit.json")

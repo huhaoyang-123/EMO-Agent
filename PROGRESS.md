@@ -70,3 +70,11 @@ Issue #9，feat/stage5-feature-selection。25组情绪表达、只用过去的�
 ## 阶段6发布（2026-11-21）
 
 本地实现、正式运行、独立验证、结果报告均完成并已提交推送。PR #12关联Closes #11，保持待审，不自动合并。Git工作树已核查干净，真实数据和模型受.gitignore保护。远程Windows/Ubuntu测试按最终提交在Issue #11记录，不以旧提交通过代替新提交检查。
+
+## 任务一 接手复现（2026-11-25，成员 A）
+
+PR #13：三轮实验复现一致（最大差 ≤1e-10），修复 Windows 路径清单在 macOS/Linux 上不可读的问题。记录 docs/records/2026-11-25_交接复现.md。
+
+## 任务三 大盘背景与广度（2026-11-25，成员 A，Issue #14）
+
+评分前方案 docs/records/2026-11-25-context-plan.md。中证全指背景（G）、成分股上涨比例与离散度（B）、情绪（S）的 M/MG/MS/MGS/MGB/MGBS 滚动对照。按预设规则未发现 G 或 S 的稳定增量；B 在 5 日按规则通过但区间含 0、2026H1 相反。2025 所有模型 Brier 均不如训练期上涨比例参照。报告 docs/results/context_v1.md。补充（context_v1b）：训练内剩余情绪仍无增量、5 日显著变差；校准显示所有模型系统性低估上涨概率（1 日约 7、5 日约 11–12 个百分点）。变量写入 docs/data_dictionary.md。
