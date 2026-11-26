@@ -4,11 +4,27 @@ EMO-Agent 是面向**中证光通信主题指数（931723）及其历史成分�
 
 ## 当前阶段
 
-后续开发统一以 [金融市场分析智能体开发文档 v1.0](docs/agent_development.md) 为规范。首版采用单 Agent，计划支持市场概览、成分股比较、情绪与行情关系、异常候选和研究证据查询。确定性 Python 工具计算数值，LLM 负责调用和解释。MVP 处于开发准备阶段，当前可运行的是已有的研究 CLI。进度见 [PROGRESS.md](PROGRESS.md)。
+后续开发统一以 [金融市场分析智能体开发文档 v1.0](docs/agent_development.md) 为规范。MVP 已实现市场概览、成分股比较、情绪与行情关系、异常候选和研究证据查询。确定性 Python 工具计算数值，DeepSeek 负责调用和解释。进度见 [PROGRESS.md](PROGRESS.md)。
 
 既有短期预测研究作为证据保留。多轮实验未发现稳定的情绪增量，冻结模型在影子检验中未优于训练期上涨比例参照。[个股有限试点](docs/results/company_pilot_v1.md) · [大盘背景和广度](docs/results/context_v1.md) · [影子预测](docs/results/shadow_v1.md)
 
-## 安装与现有研究 CLI
+## 启动 MVP
+
+在仓库根目录安装锁定依赖、校验数据并启动界面：
+
+```sh
+python -m uv sync --locked
+python -m uv run --locked emo-agent agent-check
+python -m uv run --locked streamlit run src/emo_agent/app.py
+```
+
+打开 [本机界面](http://127.0.0.1:8501)。“工具直查”可以离线使用全部五项工具。“DeepSeek 对话”可在左侧本地密码框输入密钥，或由启动进程读取 `DEEPSEEK_API_KEY`。默认模型为 `deepseek-flash`，可在界面或通过 `DEEPSEEK_MODEL` 设置。终端也可运行 `emo-agent agent "分析 2025 年一季度光通信板块的行情与股吧情绪"`。变更数据根目录时设置 `EMO_AGENT_DATA_ROOT`，指向包含 `configs/`、`docs/` 和 `data/` 的项目根。
+
+对话使用 [DeepSeek 原生 Tool Calls](https://api-docs.deepseek.com/guides/tool_calls/) 和官方 API 地址。问题、最近会话和精简后的工具结果会发给 DeepSeek。原始文件、完整时序和详细结果表保存在本地。界面直接从 Python 输出渲染数值、图表、实际样本范围和来源。MVP 中的密钥和对话只用于当前本地会话，请避免把密钥放进问题文本。
+
+示例问题包括“分析 2025 年第一季度光通信板块的行情、市场广度和股吧情绪”“2025 年上半年有哪些日期情绪偏正面但指数下跌”“历史研究是否支持用股吧情绪预测涨跌”。情绪统计截至 2026-06-30，各行情与广度数据源的实际范围显示在侧边栏。
+
+## 安装与验证
 
 需要 Python 3.13、Git 和 uv 0.13.7。Windows/macOS/Linux 均从仓库根目录执行；示例不依赖本机绝对路径。
 
@@ -26,6 +42,8 @@ python -m uv run --locked emo-agent audit-data
 ```
 
 报告默认写入 `outputs/audits/data_audit.json`。任务三、任务六的交接资产按各自元数据另行核验。基础测试可以在没有真实数据时独立运行。
+
+具备本地数据时，运行 `python -m uv run --locked python scripts/verify_agent_mvp.py`。它核验五项工具、越界情绪查询和 Streamlit 离线流程。自动化工具调用测试使用 HTTP 模拟接口。
 
 ## 历史研究复现
 

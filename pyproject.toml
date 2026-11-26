@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "emo-agent"
 version = "0.1.0"
-description = "Reproducible CSI 931723 market and sentiment forecasting research"
+description = "Historical market and sentiment analysis Agent for CSI 931723"
 requires-python = ">=3.13,<3.14"
 dependencies = [
   "numpy>=2.2,<3",
@@ -13,6 +13,8 @@ dependencies = [
   "scikit-learn>=1.6,<2",
   "lxml>=5,<7",
   "joblib>=1.4,<2",
+  "openai>=2,<3",
+  "streamlit>=1.49,<2",
 ]
 
 [dependency-groups]
