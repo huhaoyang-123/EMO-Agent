@@ -1,14 +1,14 @@
 # EMO Agent
 
-当前研究是中证光通信主题指数 **931723 历史成分公司的有限试点**，保留指数作为参照。使用历史行情与股吧统计，估计下一交易日、未来第5个交易日可比复权收盘上涨概率。暂不加入事件、ETF、实时采集或自动交易。
+EMO-Agent 是面向**中证光通信主题指数（931723）及其历史成分公司**的本地金融市场与投资者情绪分析项目。通过自然语言调用 Python 工具，分析历史行情、市场广度、成分股表现和股吧统计情绪，并给出可追溯的数据依据。
 
 ## 当前阶段
 
-阶段6已完成公司面板、三组共享逻辑回归及同口径指数对照，见 [个股有限试点报告](docs/results/company_pilot_v1.md)。31,001行特征合格公司日，64个历史代码、625日期；2025/2026历史诊断没有通过稳定情绪方向增益门槛。此前指数、稳定性、变量选择结果均保留。发布状态见 [PROGRESS.md](PROGRESS.md)。
+后续开发统一以 [金融市场分析智能体开发文档 v1.0](docs/agent_development.md) 为规范。首版采用单 Agent，计划支持市场概览、成分股比较、情绪与行情关系、异常候选和研究证据查询。确定性 Python 工具计算数值，LLM 负责调用和解释。MVP 处于开发准备阶段，当前可运行的是已有的研究 CLI。进度见 [PROGRESS.md](PROGRESS.md)。
 
-这是可复现的历史研究底座；每日运行Agent尚未实施，不能把现有结果包装成已验证有效的预测产品。
+既有短期预测研究作为证据保留。多轮实验未发现稳定的情绪增量，冻结模型在影子检验中未优于训练期上涨比例参照。[个股有限试点](docs/results/company_pilot_v1.md) · [大盘背景和广度](docs/results/context_v1.md) · [影子预测](docs/results/shadow_v1.md)
 
-## 启动
+## 安装与现有研究 CLI
 
 需要 Python 3.13、Git 和 uv 0.13.7。Windows/macOS/Linux 均从仓库根目录执行；示例不依赖本机绝对路径。
 
@@ -19,13 +19,15 @@ python -m uv run --locked pytest
 python -m uv run --locked emo-agent --help
 ```
 
-克隆仓库只包含代码、文档、合成测试数据和哈希清单。真实数据未上传 GitHub：授权成员按 [data/README.md](data/README.md) 放置同一批数据，然后运行：
+克隆仓库后，授权成员按 [data/README.md](data/README.md) 准备本地真实数据和交接包，再检查基础输入：
 
 ```sh
 python -m uv run --locked emo-agent audit-data
 ```
 
-报告默认写入 `outputs/audits/data_audit.json`。没有数据时审计命令会明确报错；基础测试仍可独立运行。
+报告默认写入 `outputs/audits/data_audit.json`。任务三、任务六的交接资产按各自元数据另行核验。基础测试可以在没有真实数据时独立运行。
+
+## 历史研究复现
 
 可选重建历史情绪快照（扫描约千万条记录，需要足够内存和时间）：
 
@@ -51,7 +53,7 @@ python -m uv run --locked python scripts/rebuild_sentiment.py
 
 每项任务先建 Issue，使用 `类型/编号-简述` 分支，通过 PR 合并到 `main`。PR 需写验收证据，并使用 `Closes #编号` 关联任务。开发结束更新 `PROGRESS.md` 和 `docs/records/`。AI 工作规则见 [AGENTS.md](AGENTS.md)。
 
-研究路线见 [docs/research_plan.md](docs/research_plan.md)，数据说明见 [docs/data_dictionary.md](docs/data_dictionary.md)。文件完整与预测有效是两回事；情绪统计的历史实际可得时间仍未核实。
+历史研究路线见 [docs/research_plan.md](docs/research_plan.md)，数据说明见 [docs/data_dictionary.md](docs/data_dictionary.md)。情绪统计的历史实际可得时间仍未核实。
 
 模型公式、四模型实际系数与下一步路线见 [docs/model_math.md](docs/model_math.md)。
 
