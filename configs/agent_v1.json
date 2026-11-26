@@ -1,0 +1,15 @@
+{
+  "model": "deepseek-flash",
+  "max_tool_calls": 4,
+  "max_tool_rounds": 3,
+  "tool_timeout_seconds": 15,
+  "api_timeout_seconds": 30,
+  "datasets": {
+    "index_daily": "data/derived/cutoff_v1/daily_samples.csv",
+    "context_daily": "data/derived/context_v1/context_features.csv",
+    "company_daily": "data/derived/company_pilot_v1/company_samples.csv",
+    "index_company_daily": "data/derived/company_pilot_v1/index_samples.csv",
+    "index_prices": "data/input/market/index_931723_full.csv",
+    "market_prices": "data/input/context/market_index_000985.csv"
+  }
+}

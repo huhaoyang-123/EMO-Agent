@@ -1,0 +1,39 @@
+{
+  "index_baseline": {
+    "title": "指数逻辑回归基线",
+    "finding": "2026 年上半年，加入情绪后下一交易日准确率增加 0.86 个百分点，未来第 5 个交易日准确率持平。2025 验证期的概率误差未改善。",
+    "limit": "描述性区间跨零，5 日模型明显偏向预测上涨。",
+    "source": "docs/results/baseline_v1.md"
+  },
+  "sentiment_stability": {
+    "title": "跨季度稳定性和变量选择",
+    "finding": "2025 年未观察到股吧情绪带来稳定的概率误差改善。变量选择与浅层树对照也未形成稳定增益。",
+    "limit": "探索样本和季度数量有限。",
+    "source": "docs/results/stability_v1.md",
+    "related": "docs/results/features_v1.md"
+  },
+  "company_pilot": {
+    "title": "个股有限试点",
+    "finding": "在控住行情和讨论活跃度后，情绪方向在两个期限上均未达到预设继续门槛。",
+    "limit": "共享逻辑回归和当前情绪字段的限制，不能外推为所有公司情绪均无价值。",
+    "source": "docs/results/company_pilot_v1.md"
+  },
+  "market_context": {
+    "title": "大盘背景与广度",
+    "finding": "大盘背景和情绪未显示稳定增量。广度在 5 日预测中有弱迹象，2025 年的 Brier 改善约 0.0009。",
+    "limit": "描述性区间包含零，2026 年上半年回顾方向相反。",
+    "source": "docs/results/context_v1.md"
+  },
+  "shadow_test": {
+    "title": "冻结模型的历史影子检验",
+    "finding": "2026-07-01 至 2026-10-09 共 67 个评价日期。各冻结模型的 Brier 均差于训练期上涨比例参照。",
+    "limit": "批量历史回顾，仅评价该窗口，不能等同实时预测或可执行策略收益。",
+    "source": "docs/results/shadow_v1.md"
+  },
+  "data_limitations": {
+    "title": "股吧统计数据的解释边界",
+    "finding": "情绪统计截至 2026-06-30。统计时段用于对齐，真实发布时间和修订历史仍未核实。",
+    "limit": "帖子数不是独立投资者人数，数据也没有评论正文；同期共变不能支持因果或未来预测。",
+    "source": "docs/data_dictionary.md"
+  }
+}

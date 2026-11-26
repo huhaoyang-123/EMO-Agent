@@ -41,7 +41,46 @@ def main() -> int:
     se.add_argument("--root", type=Path, default=Path.cwd())
     se.add_argument("--start")
     se.add_argument("--end")
+    agent = commands.add_parser("agent", help="ask DeepSeek to analyze the local historical data")
+    agent.add_argument("question")
+    direct = commands.add_parser("agent-tool", help="run a read-only analysis tool without an API key")
+    direct.add_argument("tool")
+    direct.add_argument("arguments", help="tool parameters as a JSON object")
+    check = commands.add_parser("agent-check", help="verify local inputs and display analysis coverage")
+    for command in (agent, direct, check):
+        command.add_argument("--root", type=Path, default=None)
     args = parser.parse_args()
+    if args.command in {"agent", "agent-tool", "agent-check"}:
+        import os
+        from emo_agent.analysis.loader import config_at, load_analysis_data
+
+        root = (args.root or Path(os.getenv("EMO_AGENT_DATA_ROOT", Path.cwd()))).resolve()
+        try:
+            if not audit_project(root)["ok"]:
+                raise ValueError("基础输入缺失或审计失败，请按 data/README.md 检查。")
+            data = load_analysis_data(root)
+            if args.command == "agent-check":
+                print(json.dumps(data.availability, ensure_ascii=False, indent=2, allow_nan=False))
+                return 0
+            from emo_agent.agent.registry import ToolRegistry
+
+            registry = ToolRegistry(data, root)
+            if args.command == "agent-tool":
+                result = registry.execute(args.tool, args.arguments)
+            else:
+                from emo_agent.agent.client import create_client
+                from emo_agent.agent.orchestrator import ask
+
+                config = config_at(root)
+                with create_client(config) as client:
+                    answer = ask(args.question, registry, client, config, model=os.getenv("DEEPSEEK_MODEL"))
+                result = {"answer": answer.text, "results": answer.results}
+            print(json.dumps(result, ensure_ascii=False, indent=2, allow_nan=False))
+            return 0
+        except (ValueError, OSError, KeyError) as exc:
+            print(json.dumps({"error": str(exc) if isinstance(exc, ValueError)
+                              else "数据或配置不可用。"}, ensure_ascii=False))
+            return 1
     root = args.root.resolve()
     if args.command == "build-company-panel":
         from emo_agent.company import build

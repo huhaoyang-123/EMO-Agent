@@ -4,7 +4,9 @@
 
 ## 当前阶段
 
-项目进入历史市场与情绪分析 Agent 的 MVP 准备阶段。[金融市场分析智能体开发文档 v1.0](docs/agent_development.md) 为后续开发规范。当前完成规范落库、入口更新和 task3/task6 交接数据迁入，跟踪 [Issue #18](https://github.com/huhaoyang-123/EMO-Agent/issues/18)。[迁入与验证记录](docs/records/2026-11-26-agent-spec-handoff.md)
+历史市场与情绪分析 Agent 的 MVP 已实现五项只读工具、DeepSeek 原生 Tool Calls、Streamlit 对话及离线工具直查。[开发规范 v1.0](docs/agent_development.md) · [MVP Issue #20](https://github.com/huhaoyang-123/EMO-Agent/issues/20) · [开发及验收记录](docs/records/2026-11-26-analysis-agent-mvp.md)
+
+task3/task6 交接数据已迁入本地。开发规范由 [PR #19](https://github.com/huhaoyang-123/EMO-Agent/pull/19) 提交，MVP 以该规范分支为基线。[迁入与校验记录](docs/records/2026-11-26-agent-spec-handoff.md)
 
 主线代码已包含个股试点（PR #12）、交接复现（PR #13）、大盘背景与广度（PR #15）及影子预测（PR #17）。历史研究经过复现和评估，作为产品的研究证据保留。以下历史条目中的发布状态对应各阶段记录当时。
 
@@ -32,7 +34,7 @@
 
 ## 下一步
 
-按开发规范第 9 节从数据可用性与 `configs/agent_v1.json` 着手，随后实现只读数据加载层和五个分析工具。已有 CLI 和研究报告作为复现入口及证据来源。
+审阅 MVP 后，用本机配置的 DeepSeek 密钥完成服务端实连验收并复核演示问答。现有的本地分析、合成测试和协议联调可重复运行。
 
 ## 已知限制
 
